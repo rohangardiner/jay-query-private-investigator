@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+.square {
+    display: inline-block;
+    height: 100px;
+    aspect-ratio: 1;
+    background-color: beige;
+    outline: 1px solid blue;
+}
+
+.activated {
+    background-color: bisque;
+}
+
+.target {
+    background-color: lavender;
+}
+
+.home {
+    background-color: mistyrose;
+}

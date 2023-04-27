@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jay Query, Private Investigator</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha384-UG8ao2jwOWB7/oDdObZc6ItJmwUkR/PfMyt9Qs5AwX7PsnYn1CRKCTWyncPTWvaS" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="styles.css">
+
+    <script>
+        $(document).ready(function(){
+            // Set board dimentsions
+            var windowW = $(window).width();
+            var windowH = $(window).height();
+            console.log(windowW + " x " + windowH);
+
+            // Determine target tile
+            var SQacross = (windowW/100-1);
+            var SQdown = (windowH/100-1);
+            var SQtotal = SQacross * SQdown;
+            var SQtarget = Math.floor(Math.random() * SQtotal);
+            var SQhome = Math.floor(Math.random() * SQtotal);
+            var touchedTarget = false;
+
+            // Debug
+            console.log((windowW/100).toFixed() + " SQs across, " + (windowH/100).toFixed() + " SQs down");
+            console.log("Target: " + SQtarget);
+            console.log("Home: " + SQhome);
+
+            // Render board
+            for(var i = 0; i < SQtotal; i++) {
+                switch(i) {
+                    case SQtarget:
+                    $("body").append("<div class='square target'>"+"A"+"</div>");
+                    break;
+                    case SQhome:
+                    $("body").append("<div class='square home'>"+"B"+"</div>");
+                    break;
+                    default:
+                    $("body").append("<div class='square'>"+i+"</div>");
+                    break;
+                }
+            }
+
+            // Set up mouseover for untouched tiles
+            $(".square").mouseenter(function() {
+                $(this).addClass("activated");
+            });
+            $(".target").mouseenter(function() {
+                touchedTarget = true;
+                console.log("Touched target!");
+            });
+            $(".home").mouseenter(function() {
+                if (touchedTarget) {
+                    alert("Good end");
+                    touchedTarget = false;
+                    location.reload();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+</body>
+</html>
