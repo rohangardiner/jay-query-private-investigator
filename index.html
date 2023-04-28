@@ -18,11 +18,11 @@
             // Set board dimentsions
             var windowW = $(window).width();
             var windowH = $(window).height();
-            console.log(windowW + " x " + windowH);
+            console.log("Window size: " + windowW + " x " + windowH);
 
             // Determine target tile
-            var SQacross = (windowW/100-1);
-            var SQdown = (windowH/100-1);
+            var SQacross = ((windowW/100)-1);
+            var SQdown = ((windowH/100)-1);
             var SQtotal = SQacross * SQdown;
             var SQtarget = randomTile(SQtotal);
             var SQhome = randomTile(SQtotal);
@@ -36,8 +36,6 @@
 
             // Debug
             console.log((windowW/100).toFixed() + " SQs across, " + (windowH/100).toFixed() + " SQs down");
-            console.log("Target: " + SQtarget);
-            console.log("Home: " + SQhome);
 
             // Render board
             console.log("Setting board");
@@ -45,11 +43,11 @@
             for(var i = 0; i < SQtotal; i++) {
                 switch(i) {
                     case SQtarget:
-                        console.log("Setting target");
+                        console.log("Setting target: " + SQtarget);
                         $("body").append("<div class='square target'>"+"A"+"</div>");
                         break;
                         case SQhome:
-                        console.log("Setting home");
+                        console.log("Setting home: " + SQhome);
                         $("body").append("<div class='square home'>"+"B"+"</div>");
                         break;
                         default:
@@ -84,7 +82,7 @@
         // Check if walking on activated tile every 500 ms
         window.onload = function() {
             function testLose() {
-                $(".activated").mouseenter(function() {
+                $(".activated").not(".home").mouseenter(function() {
                     alert("Bad end");
                     location.reload();
                 });
