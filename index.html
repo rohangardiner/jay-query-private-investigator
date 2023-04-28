@@ -11,6 +11,10 @@
 
     <script>
         $(document).ready(function(){
+
+            function randomTile(total) {
+                return (Math.floor(Math.random() * total));
+            }
             // Set board dimentsions
             var windowW = $(window).width();
             var windowH = $(window).height();
@@ -20,9 +24,15 @@
             var SQacross = (windowW/100-1);
             var SQdown = (windowH/100-1);
             var SQtotal = SQacross * SQdown;
-            var SQtarget = Math.floor(Math.random() * SQtotal);
-            var SQhome = Math.floor(Math.random() * SQtotal);
+            var SQtarget = randomTile(SQtotal);
+            var SQhome = randomTile(SQtotal);
             var touchedTarget = false;
+
+            // Check if important squares are the same and re-roll
+            while (SQhome == SQtarget) {
+                console.log("Squares is the sames");
+                SQhome = randomTile(SQtotal);
+            }
 
             // Debug
             console.log((windowW/100).toFixed() + " SQs across, " + (windowH/100).toFixed() + " SQs down");
@@ -30,18 +40,29 @@
             console.log("Home: " + SQhome);
 
             // Render board
+            console.log("Setting board");
+            clearBoard();
             for(var i = 0; i < SQtotal; i++) {
                 switch(i) {
                     case SQtarget:
-                    $("body").append("<div class='square target'>"+"A"+"</div>");
-                    break;
-                    case SQhome:
-                    $("body").append("<div class='square home'>"+"B"+"</div>");
-                    break;
-                    default:
-                    $("body").append("<div class='square'>"+i+"</div>");
-                    break;
+                        console.log("Setting target");
+                        $("body").append("<div class='square target'>"+"A"+"</div>");
+                        break;
+                        case SQhome:
+                        console.log("Setting home");
+                        $("body").append("<div class='square home'>"+"B"+"</div>");
+                        break;
+                        default:
+                        $("body").append("<div class='square'>"+i+"</div>");
+                        break;
+                    }
                 }
+
+            // Clear board
+            function clearBoard() {
+                console.log("Clearing board");
+                touchedTarget = false;
+                $(".square").remove();
             }
 
             // Set up mouseover for untouched tiles
@@ -55,11 +76,21 @@
             $(".home").mouseenter(function() {
                 if (touchedTarget) {
                     alert("Good end");
-                    touchedTarget = false;
                     location.reload();
                 }
             });
         });
+
+        // Check if walking on activated tile every 500 ms
+        window.onload = function() {
+            function testLose() {
+                $(".activated").mouseenter(function() {
+                    alert("Bad end");
+                    location.reload();
+                });
+            }
+            setInterval(testLose, 500);
+        }
     </script>
 </head>
 <body>
